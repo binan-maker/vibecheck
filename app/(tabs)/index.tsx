@@ -33,9 +33,6 @@ const darePrompts = [
 ];
 
 export default function HomeScreen() {
-  const { width } = useWindowDimensions();
-  const isWide = width >= 900;
-
   const [mode, setMode] = useState<Mode>('Friends');
   const [selectedPlayer, setSelectedPlayer] = useState('Tap spin to start');
   const [promptType, setPromptType] = useState<PromptType>('Truth');
@@ -191,6 +188,7 @@ const styles = StyleSheet.create({
   },
   playerText: {
     fontSize: 26,
+    fontSize: 24,
     fontWeight: '700',
   },
   badge: {
