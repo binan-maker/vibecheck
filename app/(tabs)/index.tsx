@@ -1,3 +1,4 @@
+import { Link } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
 
@@ -118,6 +119,16 @@ export default function HomeScreen() {
               <ThemedText>• No login or backend needed for MVP.</ThemedText>
               <ThemedText>• Next step: add timer, score, and custom challenge packs.</ThemedText>
             </ThemedView>
+
+
+            <ThemedView style={styles.card}>
+              <ThemedText type="subtitle">More</ThemedText>
+              <Link href="/settings" asChild>
+                <Pressable style={styles.settingsButton}>
+                  <ThemedText style={styles.settingsText}>Open Settings</ThemedText>
+                </Pressable>
+              </Link>
+            </ThemedView>
           </View>
         </View>
       </View>
@@ -195,6 +206,16 @@ const styles = StyleSheet.create({
   },
   spinText: {
     color: '#fafafa',
+    fontWeight: '700',
+  },
+  settingsButton: {
+    borderRadius: 10,
+    backgroundColor: '#0f766e',
+    paddingVertical: 10,
+    alignItems: 'center',
+  },
+  settingsText: {
+    color: '#f8fafc',
     fontWeight: '700',
   },
 });
