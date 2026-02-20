@@ -1,98 +1,148 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { useMemo, useState } from 'react';
+import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+
+type Mode = 'Friends' | 'Couples' | 'College' | 'Team';
+
+type PromptType = 'Truth' | 'Dare';
+
+const modePlayers: Record<Mode, string[]> = {
+  Friends: ['Ayaan', 'Sara', 'Maya', 'Zaid', 'Nora'],
+  Couples: ['Partner A', 'Partner B'],
+  College: ['Student 1', 'Student 2', 'Student 3', 'Student 4', 'Student 5'],
+  Team: ['Lead', 'Designer', 'Dev', 'QA', 'Ops'],
+};
+
+const truthPrompts = [
+  'What is one thing you hide when you feel insecure?',
+  'Which person in this group do you trust the most, and why?',
+  'What fear is currently stopping you from growing?',
+  'What is one thing you wish people understood about you?',
+  'When did you last feel truly proud of yourself?',
+];
+
+const darePrompts = [
+  'Do a 15-second victory dance in the middle of the circle.',
+  'Speak in a dramatic movie voice until the next turn.',
+  'Give a one-minute motivational speech to the group.',
+  'Do 10 squats and finish with a superhero pose.',
+  'Compliment every player in under 30 seconds.',
+];
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+  const [mode, setMode] = useState<Mode>('Friends');
+  const [selectedPlayer, setSelectedPlayer] = useState('Tap spin to start');
+  const [promptType, setPromptType] = useState<PromptType>('Truth');
+  const [prompt, setPrompt] = useState('The bottle has not spun yet.');
+  const players = useMemo(() => modePlayers[mode], [mode]);
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
+  const spinBottle = () => {
+    const randomPlayer = players[Math.floor(Math.random() * players.length)];
+    const nextType: PromptType = Math.random() > 0.5 ? 'Truth' : 'Dare';
+    const promptPool = nextType === 'Truth' ? truthPrompts : darePrompts;
+    const randomPrompt = promptPool[Math.floor(Math.random() * promptPool.length)];
+
+    setSelectedPlayer(randomPlayer);
+    setPromptType(nextType);
+    setPrompt(randomPrompt);
+  };
+
+  return (
+    <ScrollView contentContainerStyle={styles.container}>
+      <ThemedText type="title">Truth & Dare Prototype</ThemedText>
+      <ThemedText style={styles.subtitle}>
+        Digital bottle-spin for real-life circles. Select mode, spin, and play face-to-face.
+      </ThemedText>
+
+      <ThemedView style={styles.card}>
+        <ThemedText type="subtitle">Choose Mode</ThemedText>
+        <View style={styles.modeRow}>
+          {(Object.keys(modePlayers) as Mode[]).map((option) => {
+            const isActive = mode === option;
+            return (
+              <Pressable
+                key={option}
+                onPress={() => setMode(option)}
+                style={[styles.modeButton, isActive && styles.modeButtonActive]}>
+                <ThemedText style={isActive ? styles.modeTextActive : undefined}>{option}</ThemedText>
+              </Pressable>
+            );
+          })}
+        </View>
+        <ThemedText>Players: {players.join(' • ')}</ThemedText>
       </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
+
+      <ThemedView style={styles.card}>
+        <ThemedText type="subtitle">Bottle Result</ThemedText>
+        <ThemedText style={styles.playerText}>{selectedPlayer}</ThemedText>
+        <ThemedText style={styles.badge}>{promptType}</ThemedText>
+        <ThemedText>{prompt}</ThemedText>
+        <Pressable onPress={spinBottle} style={styles.spinButton}>
+          <ThemedText style={styles.spinText}>Spin Bottle</ThemedText>
+        </Pressable>
       </ThemedView>
-    </ParallaxScrollView>
+
+      <ThemedView style={styles.card}>
+        <ThemedText type="subtitle">Prototype Notes</ThemedText>
+        <ThemedText>• Works offline with local prompt lists.</ThemedText>
+        <ThemedText>• No login or backend needed for MVP.</ThemedText>
+        <ThemedText>• Next step: add timer, score, and custom challenge packs.</ThemedText>
+      </ThemedView>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    padding: 20,
+    gap: 12,
+  },
+  subtitle: {
+    marginTop: 6,
+  },
+  card: {
+    borderRadius: 14,
+    padding: 16,
+    gap: 10,
+  },
+  modeRow: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  modeButton: {
+    borderWidth: 1,
+    borderColor: '#667085',
+    borderRadius: 999,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+  },
+  modeButtonActive: {
+    backgroundColor: '#2563eb',
+    borderColor: '#2563eb',
+  },
+  modeTextActive: {
+    color: '#f8fafc',
+  },
+  playerText: {
+    fontSize: 24,
+    fontWeight: '700',
+  },
+  badge: {
+    fontWeight: '700',
+    color: '#0f766e',
+  },
+  spinButton: {
+    marginTop: 8,
+    borderRadius: 10,
+    backgroundColor: '#7c3aed',
+    paddingVertical: 12,
     alignItems: 'center',
-    gap: 8,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  spinText: {
+    color: '#fafafa',
+    fontWeight: '700',
   },
 });
