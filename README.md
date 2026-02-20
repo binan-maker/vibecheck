@@ -7,6 +7,7 @@ A lightweight Expo prototype for a **digital bottle-spin Truth & Dare game** pla
 - `app/(tabs)/_layout.tsx` uses `Slot` (no visible bottom tab bar)
 - `app/(tabs)/index.tsx` is the primary responsive gameplay screen
 - `app/(tabs)/settings.tsx` is the Settings page (user manual + app version)
+- `app/(tabs)/explore.tsx` is kept as a compatibility alias to Settings for easier merges
 - Built for **Android only** (phone + tablet). iOS and web are planned for future versions
 
 ## What this prototype includes
