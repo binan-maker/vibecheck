@@ -2,22 +2,26 @@
 
 A lightweight Expo prototype for a **digital bottle-spin Truth & Dare game** played in real life.
 
-## Conflict-resolved app structure
+## App structure
 
-- `app/(tabs)/_layout.tsx` now uses `Slot` (no tab bar, no visible navigation)
-- `app/(tabs)/index.tsx` is the single playable responsive screen
-- Layout is built to work across **Android, iOS, and Web** with responsive behavior for phone, tablet, desktop, and TV-sized displays
+- `app/(tabs)/_layout.tsx` uses `Slot` (no visible bottom tab bar)
+- `app/(tabs)/index.tsx` is the primary responsive gameplay screen
+- Built for **Android, iOS, and Web** with responsive behavior for phone, tablet, desktop, and TV-sized displays
 
 ## What this prototype includes
 
 - Mode selection (Friends, Couples, College, Team)
 - Offline prompt engine (Truth / Dare)
 - Random player selector (bottle-spin simulation)
-- Product clarity blocks (system vs features, pain solved, roadmap)
+- Product clarity content (system vs feature, pain solved, roadmap)
 
-## Core loop
+## Why this exists
+
+This MVP focuses on one core loop:
 
 `choose mode → spin bottle → selected player gets Truth or Dare → next turn`
+
+It solves awkward silence and boredom in in-person circles without backend/auth complexity.
 
 ## Run locally
 

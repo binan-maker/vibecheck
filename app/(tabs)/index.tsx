@@ -57,7 +57,7 @@ export default function HomeScreen() {
       <View style={styles.maxWidthWrap}>
         <ThemedText type="title">Truth & Dare Prototype</ThemedText>
         <ThemedText style={styles.subtitle}>
-          Single-screen responsive gameplay for Android, iOS, and web across phone, tablet, desktop, and TV-sized layouts.
+          Digital bottle-spin for real-life circles. Single-screen responsive gameplay across Android, iOS, web, phone, tablet, desktop, and TV-sized layouts.
         </ThemedText>
 
         <View style={[styles.contentGrid, isWide && styles.contentGridWide]}>
@@ -110,6 +110,13 @@ export default function HomeScreen() {
               <ThemedText>1) MVP now: offline spin + truth/dare deck.</ThemedText>
               <ThemedText>2) Next: timer, streak points, category packs.</ThemedText>
               <ThemedText>3) Later: share cards, leaderboard, rewarded ads, AI prompts.</ThemedText>
+            </ThemedView>
+
+            <ThemedView style={styles.card}>
+              <ThemedText type="subtitle">Prototype Notes</ThemedText>
+              <ThemedText>• Works offline with local prompt lists.</ThemedText>
+              <ThemedText>• No login or backend needed for MVP.</ThemedText>
+              <ThemedText>• Next step: add timer, score, and custom challenge packs.</ThemedText>
             </ThemedView>
           </View>
         </View>
