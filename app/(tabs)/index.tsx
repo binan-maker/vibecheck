@@ -1,3 +1,41 @@
+import { Link } from "expo-router";
+import { useMemo, useState } from "react";
+import {
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  useWindowDimensions,
+  View,
+} from "react-native";
+
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+
+type Mode = "Friends" | "Couples" | "College" | "Team";
+
+type PromptType = "Truth" | "Dare";
+
+const modePlayers: Record<Mode, string[]> = {
+  Friends: ["Ayaan", "Sara", "Maya", "Zaid", "Nora"],
+  Couples: ["Partner A", "Partner B"],
+  College: ["Student 1", "Student 2", "Student 3", "Student 4", "Student 5"],
+  Team: ["Lead", "Designer", "Dev", "QA", "Ops"],
+};
+
+const truthPrompts = [
+  "What is one thing you hide when you feel insecure?",
+  "Which person in this group do you trust the most, and why?",
+  "What fear is currently stopping you from growing?",
+  "What is one thing you wish people understood about you?",
+  "When did you last feel truly proud of yourself?",
+];
+
+const darePrompts = [
+  "Do a 15-second victory dance in the middle of the circle.",
+  "Speak in a dramatic movie voice until the next turn.",
+  "Give a one-minute motivational speech to the group.",
+  "Do 10 squats and finish with a superhero pose.",
+  "Compliment every player in under 30 seconds.",
 import { Link } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
@@ -34,6 +72,10 @@ const darePrompts = [
 
 export default function HomeScreen() {
   const { width } = useWindowDimensions();
+  const [mode, setMode] = useState<Mode>("Friends");
+  const [selectedPlayer, setSelectedPlayer] = useState("Tap spin to start");
+  const [promptType, setPromptType] = useState<PromptType>("Truth");
+  const [prompt, setPrompt] = useState("The bottle has not spun yet.");
   const [mode, setMode] = useState<Mode>('Friends');
   const [selectedPlayer, setSelectedPlayer] = useState('Tap spin to start');
   const [promptType, setPromptType] = useState<PromptType>('Truth');
@@ -42,6 +84,10 @@ export default function HomeScreen() {
 
   const spinBottle = () => {
     const randomPlayer = players[Math.floor(Math.random() * players.length)];
+    const nextType: PromptType = Math.random() > 0.5 ? "Truth" : "Dare";
+    const promptPool = nextType === "Truth" ? truthPrompts : darePrompts;
+    const randomPrompt =
+      promptPool[Math.floor(Math.random() * promptPool.length)];
     const nextType: PromptType = Math.random() > 0.5 ? 'Truth' : 'Dare';
     const promptPool = nextType === 'Truth' ? truthPrompts : darePrompts;
     const randomPrompt = promptPool[Math.floor(Math.random() * promptPool.length)];
@@ -56,6 +102,13 @@ export default function HomeScreen() {
       <View style={styles.maxWidthWrap}>
         <ThemedText type="title">Truth & Dare Prototype</ThemedText>
         <ThemedText style={styles.subtitle}>
+          Digital bottle-spin for real-life circles on Android. Optimized for
+          phone and tablet gameplay.
+        </ThemedText>
+
+        <View
+          style={[styles.contentGrid, width >= 900 && styles.contentGridWide]}
+        >
           Digital bottle-spin for real-life circles on Android. Optimized for phone and tablet gameplay.
         </ThemedText>
 
@@ -71,17 +124,31 @@ export default function HomeScreen() {
                     <Pressable
                       key={option}
                       onPress={() => setMode(option)}
+                      style={[
+                        styles.modeButton,
+                        isActive && styles.modeButtonActive,
+                      ]}
+                    >
+                      <ThemedText
+                        style={isActive ? styles.modeTextActive : undefined}
+                      >
+                        {option}
+                      </ThemedText>
                       style={[styles.modeButton, isActive && styles.modeButtonActive]}>
                       <ThemedText style={isActive ? styles.modeTextActive : undefined}>{option}</ThemedText>
                     </Pressable>
                   );
                 })}
               </View>
+              <ThemedText>Players: {players.join(" • ")}</ThemedText>
               <ThemedText>Players: {players.join(' • ')}</ThemedText>
             </ThemedView>
 
             <ThemedView style={styles.card}>
               <ThemedText type="subtitle">Bottle Result</ThemedText>
+              <ThemedText style={styles.playerText}>
+                {selectedPlayer}
+              </ThemedText>
               <ThemedText style={styles.playerText}>{selectedPlayer}</ThemedText>
               <ThemedText style={styles.badge}>{promptType}</ThemedText>
               <ThemedText>{prompt}</ThemedText>
@@ -94,6 +161,14 @@ export default function HomeScreen() {
           <View style={styles.secondaryColumn}>
             <ThemedView style={styles.card}>
               <ThemedText type="subtitle">System vs Feature</ThemedText>
+              <ThemedText>
+                • System = mode → spin → selected player → truth/dare → next
+                turn.
+              </ThemedText>
+              <ThemedText>
+                • Features = mode buttons, prompt deck, timer, score, ad
+                rewards.
+              </ThemedText>
               <ThemedText>• System = mode → spin → selected player → truth/dare → next turn.</ThemedText>
               <ThemedText>• Features = mode buttons, prompt deck, timer, score, ad rewards.</ThemedText>
             </ThemedView>
@@ -102,11 +177,23 @@ export default function HomeScreen() {
               <ThemedText type="subtitle">Pain Solved</ThemedText>
               <ThemedText>• Bored circles with no structure.</ThemedText>
               <ThemedText>• Awkward silence in gatherings.</ThemedText>
+              <ThemedText>
+                • Friends on phones instead of interacting.
+              </ThemedText>
               <ThemedText>• Friends on phones instead of interacting.</ThemedText>
             </ThemedView>
 
             <ThemedView style={styles.card}>
               <ThemedText type="subtitle">Roadmap</ThemedText>
+              <ThemedText>
+                1) MVP now: offline spin + truth/dare deck.
+              </ThemedText>
+              <ThemedText>
+                2) Next: timer, streak points, category packs.
+              </ThemedText>
+              <ThemedText>
+                3) Later: share cards, leaderboard, rewarded ads, AI prompts.
+              </ThemedText>
               <ThemedText>1) MVP now: offline spin + truth/dare deck.</ThemedText>
               <ThemedText>2) Next: timer, streak points, category packs.</ThemedText>
               <ThemedText>3) Later: share cards, leaderboard, rewarded ads, AI prompts.</ThemedText>
@@ -116,6 +203,11 @@ export default function HomeScreen() {
               <ThemedText type="subtitle">Prototype Notes</ThemedText>
               <ThemedText>• Works offline with local prompt lists.</ThemedText>
               <ThemedText>• No login or backend needed for MVP.</ThemedText>
+              <ThemedText>
+                • Next step: add timer, score, and custom challenge packs.
+              </ThemedText>
+            </ThemedView>
+
               <ThemedText>• Next step: add timer, score, and custom challenge packs.</ThemedText>
             </ThemedView>
 
@@ -124,6 +216,9 @@ export default function HomeScreen() {
               <ThemedText type="subtitle">More</ThemedText>
               <Link href="/settings" asChild>
                 <Pressable style={styles.settingsButton}>
+                  <ThemedText style={styles.settingsText}>
+                    Open Settings
+                  </ThemedText>
                   <ThemedText style={styles.settingsText}>Open Settings</ThemedText>
                 </Pressable>
               </Link>
@@ -141,6 +236,9 @@ const styles = StyleSheet.create({
     paddingBottom: 32,
   },
   maxWidthWrap: {
+    width: "100%",
+    maxWidth: 1200,
+    alignSelf: "center",
     width: '100%',
     maxWidth: 1200,
     alignSelf: 'center',
@@ -153,6 +251,8 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   contentGridWide: {
+    flexDirection: "row",
+    alignItems: "flex-start",
     flexDirection: 'row',
     alignItems: 'flex-start',
   },
@@ -170,18 +270,34 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   modeRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 8,
   },
   modeButton: {
     borderWidth: 1,
+    borderColor: "#667085",
     borderColor: '#667085',
     borderRadius: 999,
     paddingHorizontal: 12,
     paddingVertical: 8,
   },
   modeButtonActive: {
+    backgroundColor: "#2563eb",
+    borderColor: "#2563eb",
+  },
+  modeTextActive: {
+    color: "#f8fafc",
+  },
+  playerText: {
+    fontSize: 26,
+    fontWeight: "700",
+  },
+  badge: {
+    fontWeight: "700",
+    color: "#0f766e",
     backgroundColor: '#2563eb',
     borderColor: '#2563eb',
   },
@@ -200,6 +316,23 @@ const styles = StyleSheet.create({
   spinButton: {
     marginTop: 8,
     borderRadius: 10,
+    backgroundColor: "#7c3aed",
+    paddingVertical: 12,
+    alignItems: "center",
+  },
+  spinText: {
+    color: "#fafafa",
+    fontWeight: "700",
+  },
+  settingsButton: {
+    borderRadius: 10,
+    backgroundColor: "#0f766e",
+    paddingVertical: 10,
+    alignItems: "center",
+  },
+  settingsText: {
+    color: "#f8fafc",
+    fontWeight: "700",
     backgroundColor: '#7c3aed',
     paddingVertical: 12,
     alignItems: 'center',
