@@ -15,6 +15,7 @@ A lightweight Expo prototype for a **digital bottle-spin Truth & Dare game** pla
 - Mode selection (Friends, Couples, College, Team)
 - Offline prompt engine (Truth / Dare)
 - Random player selector (bottle-spin simulation)
+- Product clarity content (system vs feature, pain solved, prototype roadmap)
 - Settings page with user manual and app version details
 
 ## Why this exists
