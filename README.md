@@ -1,50 +1,28 @@
-# Welcome to your Expo app 👋
+# Truth & Dare Bottle Prototype
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A lightweight Expo prototype for a **digital bottle-spin Truth & Dare game** played in real life.
 
-## Get started
+## Current UX direction
 
-1. Install dependencies
+- **Single-screen experience** (navigation bar removed)
+- Works across **Android, iOS, and Web**
+- Responsive layout for **phone, tablet, desktop, and TV-sized screens**
 
-   ```bash
-   npm install
-   ```
+## What this prototype includes
 
-2. Start the app
+- Mode selection (Friends, Couples, College, Team)
+- Offline prompt engine (Truth / Dare)
+- Random player selector (bottle-spin simulation)
+- Product clarity blocks (system vs features, pain solved, roadmap)
 
-   ```bash
-   npx expo start
-   ```
+## Core loop
 
-In the output, you'll find options to open the app in a
+`choose mode → spin bottle → selected player gets Truth or Dare → next turn`
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+## Run locally
 
 ```bash
-npm run reset-project
+npm install
+npm run lint
+npx expo start
 ```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
