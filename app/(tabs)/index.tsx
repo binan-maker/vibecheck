@@ -1,5 +1,6 @@
+import { Link } from 'expo-router';
 import { useMemo, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
@@ -50,57 +51,116 @@ export default function HomeScreen() {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <ThemedText type="title">Truth & Dare Prototype</ThemedText>
-      <ThemedText style={styles.subtitle}>
-        Digital bottle-spin for real-life circles. Select mode, spin, and play face-to-face.
-      </ThemedText>
+    <ScrollView contentContainerStyle={styles.page}>
+      <View style={styles.maxWidthWrap}>
+        <ThemedText type="title">Truth & Dare Prototype</ThemedText>
+        <ThemedText style={styles.subtitle}>
+          Digital bottle-spin for real-life circles on Android. Optimized for phone and tablet gameplay.
+        </ThemedText>
 
-      <ThemedView style={styles.card}>
-        <ThemedText type="subtitle">Choose Mode</ThemedText>
-        <View style={styles.modeRow}>
-          {(Object.keys(modePlayers) as Mode[]).map((option) => {
-            const isActive = mode === option;
-            return (
-              <Pressable
-                key={option}
-                onPress={() => setMode(option)}
-                style={[styles.modeButton, isActive && styles.modeButtonActive]}>
-                <ThemedText style={isActive ? styles.modeTextActive : undefined}>{option}</ThemedText>
+        <View style={[styles.contentGrid, isWide && styles.contentGridWide]}>
+          <View style={styles.primaryColumn}>
+            <ThemedView style={styles.card}>
+              <ThemedText type="subtitle">Choose Mode</ThemedText>
+              <View style={styles.modeRow}>
+                {(Object.keys(modePlayers) as Mode[]).map((option) => {
+                  const isActive = mode === option;
+                  return (
+                    <Pressable
+                      key={option}
+                      onPress={() => setMode(option)}
+                      style={[styles.modeButton, isActive && styles.modeButtonActive]}>
+                      <ThemedText style={isActive ? styles.modeTextActive : undefined}>{option}</ThemedText>
+                    </Pressable>
+                  );
+                })}
+              </View>
+              <ThemedText>Players: {players.join(' • ')}</ThemedText>
+            </ThemedView>
+
+            <ThemedView style={styles.card}>
+              <ThemedText type="subtitle">Bottle Result</ThemedText>
+              <ThemedText style={styles.playerText}>{selectedPlayer}</ThemedText>
+              <ThemedText style={styles.badge}>{promptType}</ThemedText>
+              <ThemedText>{prompt}</ThemedText>
+              <Pressable onPress={spinBottle} style={styles.spinButton}>
+                <ThemedText style={styles.spinText}>Spin Bottle</ThemedText>
               </Pressable>
-            );
-          })}
+            </ThemedView>
+          </View>
+
+          <View style={styles.secondaryColumn}>
+            <ThemedView style={styles.card}>
+              <ThemedText type="subtitle">System vs Feature</ThemedText>
+              <ThemedText>• System = mode → spin → selected player → truth/dare → next turn.</ThemedText>
+              <ThemedText>• Features = mode buttons, prompt deck, timer, score, ad rewards.</ThemedText>
+            </ThemedView>
+
+            <ThemedView style={styles.card}>
+              <ThemedText type="subtitle">Pain Solved</ThemedText>
+              <ThemedText>• Bored circles with no structure.</ThemedText>
+              <ThemedText>• Awkward silence in gatherings.</ThemedText>
+              <ThemedText>• Friends on phones instead of interacting.</ThemedText>
+            </ThemedView>
+
+            <ThemedView style={styles.card}>
+              <ThemedText type="subtitle">Roadmap</ThemedText>
+              <ThemedText>1) MVP now: offline spin + truth/dare deck.</ThemedText>
+              <ThemedText>2) Next: timer, streak points, category packs.</ThemedText>
+              <ThemedText>3) Later: share cards, leaderboard, rewarded ads, AI prompts.</ThemedText>
+            </ThemedView>
+
+            <ThemedView style={styles.card}>
+              <ThemedText type="subtitle">Prototype Notes</ThemedText>
+              <ThemedText>• Works offline with local prompt lists.</ThemedText>
+              <ThemedText>• No login or backend needed for MVP.</ThemedText>
+              <ThemedText>• Next step: add timer, score, and custom challenge packs.</ThemedText>
+            </ThemedView>
+
+
+            <ThemedView style={styles.card}>
+              <ThemedText type="subtitle">More</ThemedText>
+              <Link href="/settings" asChild>
+                <Pressable style={styles.settingsButton}>
+                  <ThemedText style={styles.settingsText}>Open Settings</ThemedText>
+                </Pressable>
+              </Link>
+            </ThemedView>
+          </View>
         </View>
-        <ThemedText>Players: {players.join(' • ')}</ThemedText>
-      </ThemedView>
-
-      <ThemedView style={styles.card}>
-        <ThemedText type="subtitle">Bottle Result</ThemedText>
-        <ThemedText style={styles.playerText}>{selectedPlayer}</ThemedText>
-        <ThemedText style={styles.badge}>{promptType}</ThemedText>
-        <ThemedText>{prompt}</ThemedText>
-        <Pressable onPress={spinBottle} style={styles.spinButton}>
-          <ThemedText style={styles.spinText}>Spin Bottle</ThemedText>
-        </Pressable>
-      </ThemedView>
-
-      <ThemedView style={styles.card}>
-        <ThemedText type="subtitle">Prototype Notes</ThemedText>
-        <ThemedText>• Works offline with local prompt lists.</ThemedText>
-        <ThemedText>• No login or backend needed for MVP.</ThemedText>
-        <ThemedText>• Next step: add timer, score, and custom challenge packs.</ThemedText>
-      </ThemedView>
+      </View>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 20,
+  page: {
+    padding: 16,
+    paddingBottom: 32,
+  },
+  maxWidthWrap: {
+    width: '100%',
+    maxWidth: 1200,
+    alignSelf: 'center',
     gap: 12,
   },
   subtitle: {
-    marginTop: 6,
+    marginTop: 4,
+  },
+  contentGrid: {
+    gap: 12,
+  },
+  contentGridWide: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
+  primaryColumn: {
+    flex: 1.2,
+    gap: 12,
+  },
+  secondaryColumn: {
+    flex: 1,
+    gap: 12,
   },
   card: {
     borderRadius: 14,
@@ -127,6 +187,7 @@ const styles = StyleSheet.create({
     color: '#f8fafc',
   },
   playerText: {
+    fontSize: 26,
     fontSize: 24,
     fontWeight: '700',
   },
@@ -143,6 +204,16 @@ const styles = StyleSheet.create({
   },
   spinText: {
     color: '#fafafa',
+    fontWeight: '700',
+  },
+  settingsButton: {
+    borderRadius: 10,
+    backgroundColor: '#0f766e',
+    paddingVertical: 10,
+    alignItems: 'center',
+  },
+  settingsText: {
+    color: '#f8fafc',
     fontWeight: '700',
   },
 });
