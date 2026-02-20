@@ -58,7 +58,7 @@ export default function HomeScreen() {
       <View style={styles.maxWidthWrap}>
         <ThemedText type="title">Truth & Dare Prototype</ThemedText>
         <ThemedText style={styles.subtitle}>
-          Digital bottle-spin for real-life circles. Single-screen responsive gameplay across Android, iOS, web, phone, tablet, desktop, and TV-sized layouts.
+          Digital bottle-spin for real-life circles on Android. Optimized for phone and tablet gameplay.
         </ThemedText>
 
         <View style={[styles.contentGrid, isWide && styles.contentGridWide]}>

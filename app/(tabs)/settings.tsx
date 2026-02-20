@@ -30,7 +30,7 @@ export default function SettingsScreen() {
       <ThemedView style={styles.card}>
         <ThemedText type="subtitle">App Version</ThemedText>
         <ThemedText>Current version: {appVersion}</ThemedText>
-        <ThemedText>Platform support: Android, iOS, and Web.</ThemedText>
+        <ThemedText>Platform support: Android only (iOS/Web coming in future updates).</ThemedText>
       </ThemedView>
     </ScrollView>
   );
