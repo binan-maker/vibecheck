@@ -33,6 +33,7 @@ const darePrompts = [
 ];
 
 export default function HomeScreen() {
+  const { width } = useWindowDimensions();
   const [mode, setMode] = useState<Mode>('Friends');
   const [selectedPlayer, setSelectedPlayer] = useState('Tap spin to start');
   const [promptType, setPromptType] = useState<PromptType>('Truth');
@@ -58,6 +59,7 @@ export default function HomeScreen() {
           Digital bottle-spin for real-life circles on Android. Optimized for phone and tablet gameplay.
         </ThemedText>
 
+        <View style={[styles.contentGrid, width >= 900 && styles.contentGridWide]}>
         <View style={[styles.contentGrid, isWide && styles.contentGridWide]}>
           <View style={styles.primaryColumn}>
             <ThemedView style={styles.card}>
