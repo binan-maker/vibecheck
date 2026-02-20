@@ -2,11 +2,11 @@
 
 A lightweight Expo prototype for a **digital bottle-spin Truth & Dare game** played in real life.
 
-## Current UX direction
+## Conflict-resolved app structure
 
-- **Single-screen experience** (navigation bar removed)
-- Works across **Android, iOS, and Web**
-- Responsive layout for **phone, tablet, desktop, and TV-sized screens**
+- `app/(tabs)/_layout.tsx` now uses `Slot` (no tab bar, no visible navigation)
+- `app/(tabs)/index.tsx` is the single playable responsive screen
+- Layout is built to work across **Android, iOS, and Web** with responsive behavior for phone, tablet, desktop, and TV-sized displays
 
 ## What this prototype includes
 

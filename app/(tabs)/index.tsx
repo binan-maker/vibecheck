@@ -57,7 +57,7 @@ export default function HomeScreen() {
       <View style={styles.maxWidthWrap}>
         <ThemedText type="title">Truth & Dare Prototype</ThemedText>
         <ThemedText style={styles.subtitle}>
-          No navigation bar. One responsive screen for Android, iOS, web, tablet, desktop, and TV-sized layouts.
+          Single-screen responsive gameplay for Android, iOS, and web across phone, tablet, desktop, and TV-sized layouts.
         </ThemedText>
 
         <View style={[styles.contentGrid, isWide && styles.contentGridWide]}>
