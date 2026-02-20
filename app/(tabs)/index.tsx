@@ -60,6 +60,7 @@ export default function HomeScreen() {
         </ThemedText>
 
         <View style={[styles.contentGrid, width >= 900 && styles.contentGridWide]}>
+        <View style={[styles.contentGrid, isWide && styles.contentGridWide]}>
           <View style={styles.primaryColumn}>
             <ThemedView style={styles.card}>
               <ThemedText type="subtitle">Choose Mode</ThemedText>
@@ -189,6 +190,7 @@ const styles = StyleSheet.create({
   },
   playerText: {
     fontSize: 26,
+    fontSize: 24,
     fontWeight: '700',
   },
   badge: {
